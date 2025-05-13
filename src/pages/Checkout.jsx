@@ -197,16 +197,20 @@ const Checkout = () => {
         const now = new Date();
         const estimatedDelivery = new Date(now.getTime() + (40 * 60 * 1000));
         
-        // Place the order
-        const action = await dispatch(placeOrder({ estimatedDelivery }));
-        const newOrder = action.payload;
+        // Place the order and get the action
+        dispatch(placeOrder({ estimatedDelivery }));
         
-        if (newOrder && newOrder.id) {
+        // Get the latest order (the one just created) from the updated state
+        const latestOrder = useSelector(state => state.order.activeOrders)
+          .slice(-1)[0];
+        
+        if (latestOrder && latestOrder.id) {
           toast.success(`Your order has been placed! ${orderType === 'delivery' ? 'It will be delivered soon.' : 'It will be ready for pickup soon.'}`, {
             icon: "🍽️"
           });
           
-          navigate(`/order-tracking/${newOrder.id}`);
+          // Navigate to order tracking with the new order ID
+          navigate(`/order-tracking/${latestOrder.id}`);
         } else {
           throw new Error("Failed to create order");
         }

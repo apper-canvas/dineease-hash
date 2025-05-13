@@ -90,8 +90,8 @@ export const orderSlice = createSlice({
     },
     placeOrder: (state, action) => {
       const newOrder = {
-        // Use consistent ID generation
-        id: `${Math.floor(1000 + Math.random() * 9000)}`,
+        // Generate a unique order ID
+        id: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
         date: new Date().toISOString(),
         items: [...state.cart],
         total: state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
@@ -101,9 +101,12 @@ export const orderSlice = createSlice({
         estimatedDelivery: action.payload?.estimatedDelivery || null
       };
       
+      // Add the new order to active orders
       state.activeOrders.push(newOrder);
+      
+      // Clear the cart
       state.cart = [];
-      return newOrder; // Explicitly return the new order object
+      return newOrder;
     },
     updateOrderStatus: (state, action) => {
       const { orderId, status } = action.payload;
