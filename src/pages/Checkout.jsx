@@ -187,35 +187,34 @@ const Checkout = () => {
     e.preventDefault();
     
     if (isSubmitting || !validatePaymentForm()) return;
-      setIsSubmitting(true);
+    setIsSubmitting(true);
+    
+    try {
+      // Simulate payment processing
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
-      try {
-        // Simulate payment processing
-        await new Promise(resolve => setTimeout(resolve, 1500));
+      // Calculate estimated delivery or pickup time (30-45 min from now)
+      const now = new Date();
+      const estimatedDelivery = new Date(now.getTime() + (40 * 60 * 1000));
+      
+      // Place the order
+      const actionResult = dispatch(placeOrder({ estimatedDelivery }));
+      const newOrderId = actionResult.payload.id;
+      
+      if (newOrderId) {
+        toast.success(`Your order has been placed! ${orderType === 'delivery' ? 'It will be delivered soon.' : 'It will be ready for pickup soon.'}`, {
+          icon: "🍽️"
+        });
         
-        // Calculate estimated delivery or pickup time (30-45 min from now)
-        const now = new Date();
-        const estimatedDelivery = new Date(now.getTime() + (40 * 60 * 1000));
-        
-        // Place the order
-        const actionResult = dispatch(placeOrder({ estimatedDelivery }));
-        const newOrderId = actionResult.payload.id;
-        
-        if (newOrderId) {
-          toast.success(`Your order has been placed! ${orderType === 'delivery' ? 'It will be delivered soon.' : 'It will be ready for pickup soon.'}`, {
-            icon: "🍽️"
-          });
-          
-          // Navigate to order tracking with the new order ID
-          navigate(`/order-tracking/${newOrderId}`);
-        } else {
-          throw new Error("Failed to create order");
-        }
-      } catch (error) {
-        toast.error("There was an error processing your order. Please try again.", { autoClose: 5000 });
-      } finally {
-        setIsSubmitting(false);
+        // Navigate to order tracking with the new order ID
+        navigate(`/order-tracking/${newOrderId}`);
+      } else {
+        throw new Error("Failed to create order");
       }
+    } catch (error) {
+      toast.error("There was an error processing your order. Please try again.", { autoClose: 5000 });
+    } finally {
+      setIsSubmitting(false);
     }
   };
   
