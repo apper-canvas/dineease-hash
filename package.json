@@ -8,6 +8,7 @@ const LiveChat = () => {
   // Icons
   const MessageCircleIcon = getIcon('MessageCircle');
   const SendIcon = getIcon('Send');
+    "react-use-websocket": "^4.5.0",
   const XIcon = getIcon('X');
   const UserIcon = getIcon('User');
   const HeadphonesIcon = getIcon('Headphones');
