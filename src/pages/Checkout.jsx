@@ -716,6 +716,7 @@ const Checkout = () => {
             </Link>
           </div>
       </div>
+    </div>
   );
 };
 
