@@ -715,6 +715,9 @@ const Checkout = () => {
               Edit Cart
             </Link>
           </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
