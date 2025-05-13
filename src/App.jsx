@@ -3,6 +3,11 @@ import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Home from './pages/Home';
+import Order from './pages/Order';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import OrderTracking from './pages/OrderTracking';
+import OrderHistory from './pages/OrderHistory';
 import NotFound from './pages/NotFound';
 import getIcon from './utils/iconUtils';
 
@@ -60,6 +65,11 @@ function App() {
       <main className="container mx-auto px-4 py-8">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/order" element={<Order />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-tracking/:id" element={<OrderTracking />} />
+          <Route path="/order-history" element={<OrderHistory />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

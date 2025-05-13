@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import MainFeature from '../components/MainFeature';
+import { Link } from 'react-router-dom';
 import getIcon from '../utils/iconUtils';
 
 const Home = () => {
@@ -10,6 +11,7 @@ const Home = () => {
   const ReservationIcon = getIcon("Calendar");
   const ReviewsIcon = getIcon("Star");
   const InfoIcon = getIcon("Info");
+  const ShoppingBagIcon = getIcon("ShoppingBag");
 
   const menuItems = [
     {
@@ -270,6 +272,25 @@ const Home = () => {
           <InfoIcon className="w-5 h-5" />
           <span>Info</span>
         </button>
+        
+        <Link
+          to="/order"
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors
+            bg-white dark:bg-surface-800 text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700`}
+        >
+          <ShoppingBagIcon className="w-5 h-5" />
+          <span>Order Online</span>
+        </Link>
+        
+        <Link
+          to="/order-history"
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors
+            bg-white dark:bg-surface-800 text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700
+          `}
+        >
+          <ClockIcon className="w-5 h-5" />
+          <span>Past Orders</span>
+        </Link>
       </div>
 
       {renderTabContent()}
