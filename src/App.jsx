@@ -98,7 +98,6 @@ function App() {
       />
       
       <LiveChat />
-      />
     </div>
   );
 }

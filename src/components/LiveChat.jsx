@@ -17,7 +17,6 @@ const LiveChat = () => {
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const [agentName, setAgentName] = useState('Support Agent');
-    "react-use-websocket": "^4.5.0",
   const [isConnecting, setIsConnecting] = useState(true);
   
   const chatEndRef = useRef(null);
