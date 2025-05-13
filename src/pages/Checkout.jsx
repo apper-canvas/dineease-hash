@@ -186,7 +186,7 @@ const Checkout = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (validatePaymentForm()) {
+    if (isSubmitting || !validatePaymentForm()) return;
       setIsSubmitting(true);
       
       try {
@@ -197,26 +197,22 @@ const Checkout = () => {
         const now = new Date();
         const estimatedDelivery = new Date(now.getTime() + (40 * 60 * 1000));
         
-        // Place the order and get the action
-        dispatch(placeOrder({ estimatedDelivery }));
+        // Place the order
+        const actionResult = dispatch(placeOrder({ estimatedDelivery }));
+        const newOrderId = actionResult.payload.id;
         
-        // Get the latest order (the one just created) from the updated state
-        const latestOrder = useSelector(state => state.order.activeOrders)
-          .slice(-1)[0];
-        
-        if (latestOrder && latestOrder.id) {
+        if (newOrderId) {
           toast.success(`Your order has been placed! ${orderType === 'delivery' ? 'It will be delivered soon.' : 'It will be ready for pickup soon.'}`, {
             icon: "🍽️"
           });
           
           // Navigate to order tracking with the new order ID
-          navigate(`/order-tracking/${latestOrder.id}`);
+          navigate(`/order-tracking/${newOrderId}`);
         } else {
           throw new Error("Failed to create order");
         }
-        
       } catch (error) {
-        toast.error("There was an error processing your order. Please try again.");
+        toast.error("There was an error processing your order. Please try again.", { autoClose: 5000 });
       } finally {
         setIsSubmitting(false);
       }

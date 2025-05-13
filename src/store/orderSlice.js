@@ -106,7 +106,7 @@ export const orderSlice = createSlice({
       
       // Clear the cart
       state.cart = [];
-      return newOrder;
+      return state.activeOrders[state.activeOrders.length - 1];
     },
     updateOrderStatus: (state, action) => {
       const { orderId, status } = action.payload;
