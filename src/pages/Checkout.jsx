@@ -10,7 +10,7 @@ import getIcon from '../utils/iconUtils';
 const Checkout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { cart, orderType, deliveryAddress } = useSelector(state => state.order);
+  const { cart, orderType, deliveryAddress, activeOrders } = useSelector(state => state.order);
   
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState(deliveryAddress);
@@ -198,14 +198,16 @@ const Checkout = () => {
         const estimatedDelivery = new Date(now.getTime() + (40 * 60 * 1000)); // 40 minutes later
         
         // Place the order
-        const newOrder = dispatch(placeOrder({ estimatedDelivery }));
+        dispatch(placeOrder({ estimatedDelivery }));
+        
+        // Get the newly created order (the last one in the activeOrders array)
+        const newOrder = activeOrders[activeOrders.length - 1];
         
         toast.success(`Your order has been placed! ${orderType === 'delivery' ? 'It will be delivered soon.' : 'It will be ready for pickup soon.'}`, {
           icon: "🍽️"
         });
         
-        // Navigate to tracking page
-        navigate(`/order-tracking/${newOrder.id}`);
+        navigate(`/order-tracking/${newOrder?.id}`);
       } catch (error) {
         toast.error("There was an error processing your order. Please try again.");
       } finally {
