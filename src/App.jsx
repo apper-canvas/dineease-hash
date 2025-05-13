@@ -10,6 +10,7 @@ import OrderTracking from './pages/OrderTracking';
 import OrderHistory from './pages/OrderHistory';
 import NotFound from './pages/NotFound';
 import getIcon from './utils/iconUtils';
+import LiveChat from './components/LiveChat';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -94,6 +95,9 @@ function App() {
         pauseOnHover
         theme={darkMode ? "dark" : "light"}
         toastClassName="text-sm font-medium"
+      />
+      
+      <LiveChat />
       />
     </div>
   );
