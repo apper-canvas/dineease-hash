@@ -195,19 +195,22 @@ const Checkout = () => {
         
         // Calculate estimated delivery or pickup time (30-45 min from now)
         const now = new Date();
-        const estimatedDelivery = new Date(now.getTime() + (40 * 60 * 1000)); // 40 minutes later
+        const estimatedDelivery = new Date(now.getTime() + (40 * 60 * 1000));
         
         // Place the order
-        dispatch(placeOrder({ estimatedDelivery }));
+        const action = await dispatch(placeOrder({ estimatedDelivery }));
+        const newOrder = action.payload;
         
-        // Get the newly created order (the last one in the activeOrders array)
-        const newOrder = activeOrders[activeOrders.length - 1];
+        if (newOrder && newOrder.id) {
+          toast.success(`Your order has been placed! ${orderType === 'delivery' ? 'It will be delivered soon.' : 'It will be ready for pickup soon.'}`, {
+            icon: "🍽️"
+          });
+          
+          navigate(`/order-tracking/${newOrder.id}`);
+        } else {
+          throw new Error("Failed to create order");
+        }
         
-        toast.success(`Your order has been placed! ${orderType === 'delivery' ? 'It will be delivered soon.' : 'It will be ready for pickup soon.'}`, {
-          icon: "🍽️"
-        });
-        
-        navigate(`/order-tracking/${newOrder?.id}`);
       } catch (error) {
         toast.error("There was an error processing your order. Please try again.");
       } finally {
